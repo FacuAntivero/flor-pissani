@@ -36,6 +36,7 @@
     return;
   }
   gsap.registerPlugin(ScrollTrigger);
+  gsap.ticker.lagSmoothing(0); // las animaciones siguen el reloj real, aunque el dispositivo sea lento
 
   /* ---- Utilidades ---- */
   function splitWords(el) {
@@ -165,6 +166,8 @@
     root.classList.remove('loader-on');
     var tl = heroIn();
     scrollIn();
+    // red de seguridad: si por algún motivo la primera pantalla no terminó de animarse, se completa
+    setTimeout(function () { if (tl.progress() < 1) tl.progress(1); }, 6500);
     window.addEventListener('load', function () { ScrollTrigger.refresh(); });
     return tl;
   }
