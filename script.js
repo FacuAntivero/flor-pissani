@@ -126,31 +126,6 @@
     });
   }
 
-  /* ---- Cursor ---- */
-  function cursorFx() {
-    if (!finePointer) return;
-    var dot = document.createElement('div'); dot.className = 'cursor';
-    var ring = document.createElement('div'); ring.className = 'cursor-ring'; ring.innerHTML = '<span>Ver</span>';
-    document.body.appendChild(ring); document.body.appendChild(dot);
-    var mx = -100, my = -100, rx = -100, ry = -100, seen = false;
-    window.addEventListener('mousemove', function (e) {
-      mx = e.clientX; my = e.clientY;
-      if (!seen) { seen = true; rx = mx; ry = my; dot.style.opacity = 1; ring.style.opacity = 1; }
-    }, { passive: true });
-    document.addEventListener('mouseleave', function () { dot.style.opacity = 0; ring.style.opacity = 0; seen = false; });
-    gsap.ticker.add(function () {
-      rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18;
-      dot.style.transform = 'translate3d(' + mx + 'px,' + my + 'px,0)';
-      ring.style.transform = 'translate3d(' + rx + 'px,' + ry + 'px,0)';
-    });
-    document.addEventListener('mouseover', function (e) {
-      var t = e.target.closest && e.target.closest('a, button');
-      var inList = !!(t && t.closest('.svc-list'));
-      ring.classList.toggle('is-view', inList);
-      ring.classList.toggle('is-link', !!t && !inList);
-    });
-  }
-
   /* ---- Botones magnéticos ---- */
   function magnetic() {
     if (!finePointer) return;
@@ -161,26 +136,6 @@
       });
       b.addEventListener('mouseleave', function () { gsap.to(b, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1,0.5)' }); });
     });
-  }
-
-  /* ---- Vista previa que sigue al cursor en la lista de servicios ---- */
-  function servicePreview() {
-    var list = $('.svc-list'), prev = $('.svc-preview');
-    if (!list || !prev || !finePointer || window.innerWidth < 1001) return;
-    var imgs = $$('img', prev);
-    var x = 0, y = 0, tx = 0, ty = 0, on = false;
-    var qx = gsap.quickSetter(prev, 'x', 'px'), qy = gsap.quickSetter(prev, 'y', 'px');
-    list.addEventListener('mousemove', function (e) { tx = e.clientX + 36; ty = e.clientY - 165; });
-    $$('li a', list).forEach(function (a, i) {
-      a.addEventListener('mouseenter', function () {
-        imgs.forEach(function (im, k) { im.classList.toggle('on', k === i); });
-        if (!on) { x = tx; y = ty; on = true; }
-        gsap.to(prev, { opacity: 1, scale: 1, rotate: 0, duration: 0.5, ease: 'power3.out' });
-      });
-    });
-    list.addEventListener('mouseleave', function () { on = false; gsap.to(prev, { opacity: 0, scale: 0.9, duration: 0.35 }); });
-    gsap.set(prev, { scale: 0.9 });
-    gsap.ticker.add(function () { x += (tx - x) * 0.14; y += (ty - y) * 0.14; qx(x); qy(y); });
   }
 
   /* ---- Transición entre páginas ---- */
@@ -208,7 +163,7 @@
     root.classList.remove('loader-on');
     var tl = heroIn();
     scrollIn();
-    cursorFx(); magnetic(); servicePreview();
+    magnetic();
     window.addEventListener('load', function () { ScrollTrigger.refresh(); });
     return tl;
   }
