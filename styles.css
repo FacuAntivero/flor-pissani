@@ -218,7 +218,7 @@ em { font-style: italic; }
 .crumb { padding: 26px 0 0; font-size: 0.86rem; color: var(--soft); }
 .crumb a { transition: color .2s ease; }
 .crumb a:hover { color: var(--navy); }
-.svc-hero { padding: 30px 0 84px; }
+.svc-hero { padding: 30px 0 64px; }
 .svc-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 72px; align-items: start; }
 .svc-hero h1 { font-size: clamp(3rem, 6vw, 5.2rem); margin: 20px 0 22px; }
 .svc-lead { color: var(--soft); font-size: 1.14rem; max-width: 520px; margin-bottom: 32px; }
@@ -231,8 +231,14 @@ em { font-style: italic; }
 .svc-photo::before { content: ""; position: absolute; inset: 22px -22px -22px 22px; border: 1.5px solid var(--taupe); }
 .svc-photo .frame { position: relative; overflow: hidden; aspect-ratio: 4 / 5; background: var(--paper); }
 .svc-photo img { width: 100%; height: 100%; object-fit: cover; }
-.svc-body { padding: 0 0 96px; }
-.svc-body-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 72px; }
+.svc-body { padding: 0 0 80px; }
+.svc-body-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 72px; align-items: start; }
+.svc-body-grid.single { grid-template-columns: minmax(0, 760px); }
+.svc-body-main h2 { margin-bottom: 22px; }
+.svc-panel { background: var(--champagne); padding: 34px 38px 22px; }
+.svc-panel .list-clean { margin: 18px 0 0; border-top: 1px solid rgba(17,34,80,.18); }
+.svc-panel .list-clean li { border-bottom-color: rgba(17,34,80,.14); }
+.svc-panel .list-clean li::before { background: var(--navy); }
 .svc-body h2 { font-size: clamp(2rem, 3.4vw, 2.9rem); }
 .svc-body p { color: var(--soft); margin-bottom: 16px; }
 .list-clean { list-style: none; margin: 10px 0 22px; border-top: 1px solid var(--line); }
