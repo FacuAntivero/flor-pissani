@@ -130,17 +130,16 @@ em { font-style: italic; }
 .fact span { font-size: 0.82rem; color: #3f4046; letter-spacing: .02em; }
 
 /* Pincel que revela el maquillaje */
-.rb { --p: 1; position: relative; width: min(100%, 400px); justify-self: end; }
+.rb { position: relative; width: min(100%, 400px); justify-self: end; }
 .rb-frame { position: relative; overflow: hidden; aspect-ratio: 4 / 5; border-radius: 220px 220px 0 0; background: var(--paper); }
 .rb-frame img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; }
-.rb-powder { position: absolute; inset: 0; background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .62 0 0 0 0 .56 0 0 0 0 .4 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
-    radial-gradient(circle at 30% 18%, #f6f2e3 0%, #e7e2ce 55%, #d7cfb4 100%);
-  -webkit-mask-image: linear-gradient(90deg, transparent calc(var(--p) * 134% - 34%), #000 calc(var(--p) * 134% - 10%));
-          mask-image: linear-gradient(90deg, transparent calc(var(--p) * 134% - 34%), #000 calc(var(--p) * 134% - 10%)); }
-.rb-brush { display: none; position: absolute; left: calc(var(--p) * 134% - 22%); top: 70%; width: 96px; height: 330px; z-index: 3; pointer-events: none; transform-origin: 50% 100%; transform: translate(-50%, -100%) rotate(24deg); filter: drop-shadow(0 10px 12px rgba(17,34,80,.28)); }
+.rb-canvas { display: none; position: absolute; inset: 0; width: 100%; height: 100%; transition: opacity .8s ease; }
+.js .rb-canvas { display: block; }
+.rb-canvas.done { opacity: 0; }
+.rb-brush { display: none; position: absolute; left: 0; top: 0; width: 84px; height: 266px; z-index: 3; pointer-events: none; transform-origin: 50% 100%; transform: translate(-50%, -100%); will-change: transform, left, top; }
 .js .rb-brush { display: block; }
-.rb-brush svg { width: 100%; height: 100%; overflow: visible; }
+.rb-brush svg { position: relative; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 12px 12px rgba(17,34,80,.3)); }
+.rb-dust { position: absolute; left: 50%; bottom: -26px; width: 150px; height: 90px; margin-left: -75px; border-radius: 50%; background: radial-gradient(ellipse, rgba(247,243,230,.75) 0%, rgba(231,226,206,.35) 45%, rgba(231,226,206,0) 72%); }
 .rb-caption { margin-top: 18px; font-size: .74rem; letter-spacing: .22em; text-transform: uppercase; color: #3f4046; }
 .rb-caption b { color: var(--navy); font-weight: 500; }
 
@@ -263,7 +262,7 @@ em { font-style: italic; }
 }
 @media (max-width: 1000px) {
   .hero-grid, .booking-grid, .svc-grid, .svc-body-grid, .about-grid { grid-template-columns: 1fr; gap: 56px; }
-  .rb { justify-self: start; width: min(100%, 420px); }
+  .rb { justify-self: center; margin-inline: auto; width: min(100%, 420px); }
   .hero-visual { justify-self: start; margin-left: 0; width: min(calc(100% - 28px), 440px); }
   .badge-spin { left: -10px; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
@@ -297,8 +296,8 @@ em { font-style: italic; }
   .section { padding: 72px 0; }
   .about { padding: 72px 0; }
   .facts { gap: 28px; }
-  .rb { width: calc(100% - 40px); }
-  .rb-brush { width: 74px; height: 256px; }
+  .rb { width: min(100%, 380px); }
+  .rb-brush { width: 66px; height: 210px; }
   .booking { padding: 84px 0; }
   .footer-grid { grid-template-columns: 1fr; gap: 32px; }
   .gallery-grid { grid-template-columns: 1fr; }
