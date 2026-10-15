@@ -331,3 +331,26 @@ em { font-style: italic; }
 @keyframes wa-ring { 0% { transform: scale(1); opacity: .9; } 70%, 100% { transform: scale(1.55); opacity: 0; } }
 @media (max-width: 720px) { .wa-float { right: 16px; width: 54px; height: 54px; } .wa-tip { display: none; } }
 @media (prefers-reduced-motion: reduce) { .wa-float::before { animation: none; } .js .wa-float { opacity: 1; transform: none; pointer-events: auto; } }
+
+
+/* ---------- Video (Instagram, carga al tocar) ---------- */
+.video-section { padding: 0 0 100px; }
+.video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+.video-copy h2 { font-size: clamp(2.2rem, 4vw, 3.3rem); margin: 18px 0 16px; }
+.video-copy p { color: var(--soft); max-width: 420px; margin-bottom: 26px; }
+.video-card { position: relative; width: min(100%, 340px); aspect-ratio: 9 / 16; justify-self: center; background: var(--navy); overflow: hidden; }
+.video-card::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(17,34,80,.05) 40%, rgba(17,34,80,.7) 100%); z-index: 1; pointer-events: none; }
+.video-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s var(--ease); }
+.video-card:hover img { transform: scale(1.04); }
+.video-play { position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; background: none; border: 0; cursor: pointer; }
+.video-play span { width: 78px; height: 78px; border-radius: 50%; background: var(--champagne); color: var(--navy); display: grid; place-items: center; box-shadow: 0 10px 30px rgba(11,11,13,.3); transition: transform .5s var(--ease); }
+.video-play span::before { content: ""; position: absolute; width: 78px; height: 78px; border-radius: 50%; border: 1.5px solid var(--champagne); animation: wa-ring 2.8s ease-out infinite; }
+.video-play svg { width: 30px; height: 30px; margin-left: 3px; }
+.video-card:hover .video-play span { transform: scale(1.08); }
+.video-label { position: absolute; left: 18px; bottom: 16px; z-index: 2; font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--white); }
+.video-card.live { aspect-ratio: 9 / 18.2; }
+.video-card.live::before { display: none; }
+.video-card iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: var(--white); z-index: 3; }
+@media (max-width: 1000px) { .video-grid { grid-template-columns: 1fr; gap: 44px; } .video-card { justify-self: start; } }
+@media (max-width: 720px) { .video-section { padding-bottom: 72px; } .video-card { justify-self: center; width: min(100%, 320px); } }
+@media (prefers-reduced-motion: reduce) { .video-play span::before { animation: none; } }

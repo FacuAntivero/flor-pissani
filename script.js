@@ -31,6 +31,24 @@
     $$('a', nav).forEach(function (a) { a.addEventListener('click', function () { nav.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); }); });
   }
 
+  /* ---- Videos de Instagram: se cargan recién al tocar play (no pesan ni rastrean antes) ---- */
+  $$('.video-card[data-ig]').forEach(function (card) {
+    var btn = $('.video-play', card);
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var f = document.createElement('iframe');
+      f.src = 'https://www.instagram.com/reel/' + card.getAttribute('data-ig') + '/embed/';
+      f.setAttribute('allowfullscreen', '');
+      f.setAttribute('allow', 'autoplay; encrypted-media; fullscreen');
+      f.setAttribute('title', 'Video de Instagram');
+      f.setAttribute('scrolling', 'no');
+      card.classList.add('live');
+      card.appendChild(f);
+      btn.remove();
+      var lbl = $('.video-label', card); if (lbl) lbl.remove();
+    });
+  });
+
   /* ---- Sin GSAP o con movimiento reducido: contenido estático ---- */
   if (!window.gsap || !window.ScrollTrigger || reduce) {
     root.classList.remove('js', 'wipe-in', 'loader-on');
