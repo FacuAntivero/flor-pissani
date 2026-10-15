@@ -10,7 +10,16 @@
   var header = $('.site-header');
   var toggle = $('.nav-toggle');
   var nav = $('.nav');
-  function onScroll() { if (header) header.classList.toggle('scrolled', window.scrollY > 8); }
+  var lastY = window.scrollY;
+  function onScroll() {
+    if (!header) return;
+    var y = window.scrollY;
+    header.classList.toggle('scrolled', y > 8);
+    var menuOpen = nav && nav.classList.contains('open');
+    if (y > 260 && y > lastY + 6 && !menuOpen) header.classList.add('hide');
+    else if (y < lastY - 6 || y < 120) header.classList.remove('hide');
+    lastY = y;
+  }
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
   if (toggle && nav) {
@@ -71,7 +80,7 @@
       tl.to($('img', el), { scale: 1, duration: 1.8, ease: 'power3.out' }, 0.2 + i * 0.15);
     });
     $$('.draw[data-hero] path').forEach(function (p) { tl.to(p, { strokeDashoffset: 0, duration: 2.2, ease: 'power2.inOut' }, 0.4); });
-    var pop = $$('.badge-spin, .hero-tag');
+    var pop = $$('.badge-spin');
     if (pop.length) tl.fromTo(pop, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.9, ease: 'back.out(1.8)', stagger: 0.15 }, 1.1);
     return tl;
   }
@@ -122,19 +131,12 @@
       if (!pin || !track) return;
       var dist = function () { return Math.max(0, track.scrollWidth - window.innerWidth + 40); };
       gsap.to(track, { x: function () { return -dist(); }, ease: 'none',
-        scrollTrigger: { trigger: pin, start: 'top top', end: function () { return '+=' + dist(); }, pin: true, scrub: 0.7, anticipatePin: 1, invalidateOnRefresh: true } });
-    });
-  }
-
-  /* ---- Botones magnéticos ---- */
-  function magnetic() {
-    if (!finePointer) return;
-    $$('.btn').forEach(function (b) {
-      b.addEventListener('mousemove', function (e) {
-        var r = b.getBoundingClientRect();
-        gsap.to(b, { x: (e.clientX - r.left - r.width / 2) * 0.22, y: (e.clientY - r.top - r.height / 2) * 0.28, duration: 0.4, ease: 'power3.out' });
-      });
-      b.addEventListener('mouseleave', function () { gsap.to(b, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1,0.5)' }); });
+        scrollTrigger: { trigger: pin, start: 'top top', end: function () { return '+=' + dist(); }, pin: true, scrub: 0.7, anticipatePin: 1, invalidateOnRefresh: true,
+          onUpdate: function (self) {
+            var fill = $('.works-line i'), cnt = $('.works-count b'), n = $$('.work').length;
+            if (fill) fill.style.transform = 'scaleX(' + self.progress.toFixed(3) + ')';
+            if (cnt) cnt.textContent = ('0' + Math.min(n, Math.max(1, Math.ceil(self.progress * n)))).slice(-2);
+          } } });
     });
   }
 
@@ -163,7 +165,6 @@
     root.classList.remove('loader-on');
     var tl = heroIn();
     scrollIn();
-    magnetic();
     window.addEventListener('load', function () { ScrollTrigger.refresh(); });
     return tl;
   }
