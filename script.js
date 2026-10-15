@@ -122,6 +122,22 @@
       var o = { v: 0 };
       gsap.to(o, { v: end, duration: 1.8, ease: 'power2.out', scrollTrigger: { trigger: el, start: 'top 90%', once: true }, onUpdate: function () { el.textContent = prefix + Math.round(o.v); } });
     });
+    // pincel que revela el maquillaje (scroll)
+    $$('[data-brush]').forEach(function (el) {
+      var brush = $('.rb-brush', el);
+      var o = { p: 0 };
+      function apply() {
+        var s = Math.sin(o.p * Math.PI * 5);
+        el.style.setProperty('--p', o.p.toFixed(4));
+        if (brush) {
+          brush.style.transform = 'translate(-50%,-100%) rotate(' + (24 + s * 5) + 'deg) translateY(' + (s * 8).toFixed(1) + 'px)';
+          brush.style.opacity = o.p > 0.985 ? '0' : '1';
+        }
+      }
+      apply();
+      gsap.to(o, { p: 1, ease: 'none', onUpdate: apply,
+        scrollTrigger: { trigger: el, start: 'top 82%', end: 'bottom 42%', scrub: 0.8 } });
+    });
     // barra de progreso
     var bar = $('.progress');
     if (bar) gsap.to(bar, { scaleX: 1, ease: 'none', scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 0.3 } });

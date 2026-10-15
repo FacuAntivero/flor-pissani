@@ -68,24 +68,47 @@
   </section>
 
   <section class="brands" aria-label="Marcas con las que trabajo">
-    <div class="wrap brands-inner">
-      <span class="brands-label" data-reveal>Marcas con las que trabajo</span>
-      <div class="brands-list" data-reveal><span>Dior</span><span>Lancôme</span><span>Kryolan</span><span>MAC</span><span>L'Oréal</span><span>Make Up For Ever</span><span>Maybelline</span></div>
+    <p class="brands-label" data-reveal>Marcas con las que trabajo</p>
+    <div class="brands-marquee" data-reveal>
+      <div class="brands-track">
+        <div class="brand-items"><span class="brand-item">Dior</span><span class="brand-item">Lancôme</span><span class="brand-item">Kryolan</span><span class="brand-item">MAC</span><span class="brand-item">L'Oréal</span><span class="brand-item">Make Up For Ever</span><span class="brand-item">Maybelline</span></div>
+        <div class="brand-items" aria-hidden="true"><span class="brand-item">Dior</span><span class="brand-item">Lancôme</span><span class="brand-item">Kryolan</span><span class="brand-item">MAC</span><span class="brand-item">L'Oréal</span><span class="brand-item">Make Up For Ever</span><span class="brand-item">Maybelline</span></div>
+      </div>
     </div>
   </section>
 
   <section class="about" id="sobre-mi">
     <div class="wrap about-grid">
-      <div class="avatar" data-reveal><img src="assets/flor-pissani.jpg" alt="Flor Pissani" width="168" height="168" loading="lazy"></div>
-      <div>
-        <span class="eyebrow" data-reveal>Sobre mí</span>
+      <div class="about-copy">
+        <div class="about-id" data-reveal>
+          <span class="avatar"><img src="assets/flor-pissani.jpg" alt="Flor Pissani" width="74" height="74" loading="lazy"></span>
+          <span class="eyebrow">Sobre mí</span>
+        </div>
         <h2 data-split>Hola, soy Flor.</h2>
         <p data-reveal>Maquilladora profesional y cosmiatra, y vivo en Tandil. Busco que el maquillaje se vea natural y que mi clienta se sienta cómoda con él. Me especializo en pieles maduras y me actualizo constantemente. También dicto cursos de automaquillaje.</p>
         <div class="facts" data-reveal>
           <div class="fact"><strong data-count="20" data-prefix="+">+20</strong><span>años en maquillaje</span></div>
           <div class="fact"><strong data-count="15" data-prefix="+">+15</strong><span>años en cosmetología</span></div>
-          <div class="fact"><strong style="font-size:1.7rem;padding-top:8px">Pieles maduras</strong><span>mi especialidad</span></div>
         </div>
+      </div>
+      <div class="rb" data-brush>
+        <div class="rb-frame">
+          <img src="assets/piel-madura-blusa.jpg" alt="Maquillaje natural sobre piel madura, trabajo de Flor Pissani" width="960" height="1280" loading="lazy">
+          <div class="rb-powder" aria-hidden="true"></div>
+        </div>
+        <div class="rb-brush" aria-hidden="true">
+          <svg viewBox="0 0 100 280" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="bh" x1="0" x2="1"><stop offset="0" stop-color="#112250"/><stop offset=".5" stop-color="#3b507d"/><stop offset="1" stop-color="#0c1838"/></linearGradient>
+              <linearGradient id="bf" x1="0" x2="1"><stop offset="0" stop-color="#a39c88"/><stop offset=".45" stop-color="#f3efe0"/><stop offset="1" stop-color="#8d8570"/></linearGradient>
+              <linearGradient id="bb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16161c"/><stop offset=".72" stop-color="#34343e"/><stop offset="1" stop-color="#e7e2ce"/></linearGradient>
+            </defs>
+            <path d="M41 150 L59 150 L55 18 Q50 2 45 18 Z" fill="url(#bh)"/>
+            <rect x="33" y="146" width="34" height="40" rx="5" fill="url(#bf)"/>
+            <path d="M33 186 C14 196 12 238 24 262 C32 276 44 281 50 281 C56 281 68 276 76 262 C88 238 86 196 67 186 Z" fill="url(#bb)"/>
+          </svg>
+        </div>
+        <p class="rb-caption">Maquillaje natural · <b>pieles maduras</b></p>
       </div>
     </div>
   </section>
