@@ -15,6 +15,7 @@
     if (!header) return;
     var y = window.scrollY;
     header.classList.toggle('scrolled', y > 8);
+    var wa = $('.wa-float'); if (wa) wa.classList.toggle('show', y > 220);
     var menuOpen = nav && nav.classList.contains('open');
     if (y > 260 && y > lastY + 6 && !menuOpen) header.classList.add('hide');
     else if (y < lastY - 6 || y < 120) header.classList.remove('hide');

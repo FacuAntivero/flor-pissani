@@ -111,9 +111,10 @@ em { font-style: italic; }
 .brand-items { display: flex; }
 .brands-track { display: flex; width: max-content; animation: brands 42s linear infinite; }
 .brands-marquee:hover .brands-track { animation-play-state: paused; }
-.brand-item { display: flex; align-items: center; gap: 58px; padding-right: 58px; font-weight: 500; font-size: 1.08rem; letter-spacing: .36em; text-transform: uppercase; color: var(--navy); opacity: .5; white-space: nowrap; transition: opacity .35s ease; }
-.brand-item:hover { opacity: 1; }
-.brand-item::after { content: "✦"; color: var(--taupe); font-size: .62rem; letter-spacing: 0; }
+.brand-item { display: flex; align-items: center; gap: 64px; padding-right: 64px; opacity: .55; transition: opacity .35s ease, transform .5s var(--ease); }
+.brand-item img { display: block; width: auto; height: auto; max-height: 36px; max-width: 170px; }
+.brand-item:hover { opacity: 1; transform: translateY(-2px); }
+.brand-item::after { content: "✦"; color: var(--taupe); font-size: .62rem; }
 @keyframes brands { to { transform: translateX(-50%); } }
 
 /* ---------- Sobre mí ---------- */
@@ -303,7 +304,8 @@ em { font-style: italic; }
   .gallery-grid { grid-template-columns: 1fr; }
   .svc-photo::before { inset: 14px -10px -14px 14px; }
   .next-inner .arrow { display: none; }
-  .brand-item { gap: 38px; padding-right: 38px; font-size: .92rem; }
+  .brand-item { gap: 42px; padding-right: 42px; }
+  .brand-item img { max-height: 28px; max-width: 130px; }
 }
 @media (max-width: 560px) {
   .services { grid-template-columns: 1fr; gap: 48px; }
@@ -315,3 +317,17 @@ em { font-style: italic; }
   .js [data-split] .wi, .js [data-reveal], .js .img-reveal, .js .img-reveal img { transform: none !important; opacity: 1 !important; clip-path: none !important; }
   .loader, .wipe { display: none !important; }
 }
+
+
+/* ---------- Botón flotante de WhatsApp ---------- */
+.wa-float { position: fixed; right: 20px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 95; width: 58px; height: 58px; border-radius: 50%; background: var(--navy); color: var(--white); display: grid; place-items: center; box-shadow: 0 10px 28px rgba(17,34,80,.28); transition: transform .5s var(--ease), background .3s ease, opacity .5s ease; }
+.js .wa-float { opacity: 0; transform: translateY(18px) scale(.9); pointer-events: none; }
+.js .wa-float.show { opacity: 1; transform: none; pointer-events: auto; }
+.wa-float svg { width: 28px; height: 28px; }
+.wa-float::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--champagne); animation: wa-ring 2.8s ease-out infinite; }
+.wa-float:hover { background: var(--sapphire); transform: translateY(-3px) scale(1.04); }
+.wa-tip { position: absolute; right: 70px; top: 50%; transform: translateY(-50%) translateX(8px); background: var(--white); color: var(--navy); font-size: .8rem; letter-spacing: .04em; padding: 9px 14px; white-space: nowrap; box-shadow: 0 8px 24px rgba(17,34,80,.16); opacity: 0; pointer-events: none; transition: opacity .3s ease, transform .4s var(--ease); }
+.wa-float:hover .wa-tip, .wa-float:focus-visible .wa-tip { opacity: 1; transform: translateY(-50%); }
+@keyframes wa-ring { 0% { transform: scale(1); opacity: .9; } 70%, 100% { transform: scale(1.55); opacity: 0; } }
+@media (max-width: 720px) { .wa-float { right: 16px; width: 54px; height: 54px; } .wa-tip { display: none; } }
+@media (prefers-reduced-motion: reduce) { .wa-float::before { animation: none; } .js .wa-float { opacity: 1; transform: none; pointer-events: auto; } }
