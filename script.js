@@ -105,7 +105,7 @@
     return tl;
   }
 
-  /* ---- Pincel de maquillaje: borra el polvo en pasadas, siguiendo el scroll ---- */
+  /* ---- Pincel de maquillaje: borra el polvo en pasadas al entrar la foto en pantalla ---- */
   function initBrush(el) {
     var frame = $('.rb-frame', el), cv = $('.rb-canvas', el), brush = $('.rb-brush', el);
     if (!frame || !cv || !brush) return;
@@ -176,8 +176,9 @@
     }
     resize();
     var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(resize, 200); });
-    gsap.to(o, { p: 1, ease: 'none', onUpdate: function () { render(o.p); },
-      scrollTrigger: { trigger: el, start: 'top 78%', end: 'bottom 30%', scrub: 0.6 } });
+    // se dispara al entrar la foto en pantalla y corre sola (no depende del scroll): la imagen queda limpia mientras se mira
+    gsap.to(o, { p: 1, ease: 'sine.inOut', duration: 3.6, delay: 0.15, onUpdate: function () { render(o.p); },
+      scrollTrigger: { trigger: frame, start: 'top 75%', once: true } });
   }
 
   /* ---- Animaciones al hacer scroll ---- */
@@ -216,7 +217,7 @@
       var o = { v: 0 };
       gsap.to(o, { v: end, duration: 1.8, ease: 'power2.out', scrollTrigger: { trigger: el, start: 'top 90%', once: true }, onUpdate: function () { el.textContent = prefix + Math.round(o.v); } });
     });
-    // pincel que revela el maquillaje (scroll): barrido en zigzag sobre una capa de polvo
+    // pincel que revela el maquillaje: barrido en zigzag sobre una capa de polvo
     $$('[data-brush]').forEach(initBrush);
     // barra de progreso
     var bar = $('.progress');
