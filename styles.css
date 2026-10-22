@@ -60,6 +60,18 @@ em { font-style: italic; }
 .nav a:not(.btn)::after { content: ""; position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: var(--taupe); transform: scaleX(0); transform-origin: 100% 50%; transition: transform .4s var(--ease); }
 .nav a:not(.btn):hover { color: var(--ink); }
 .nav a:not(.btn):hover::after, .nav a.active::after { transform: scaleX(1); transform-origin: 0 50%; }
+/* Solapa de servicios (desplegable) */
+.nav-item { position: relative; }
+.nav .caret { display: inline-block; width: 6px; height: 6px; margin-left: 8px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .35s var(--ease); }
+.nav-item.has-sub:hover .caret, .nav-item.has-sub:focus-within .caret { transform: translateY(1px) rotate(225deg); }
+.subnav { position: absolute; top: 100%; left: 50%; margin-left: -200px; width: 400px; padding: 14px 8px 8px; opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity .3s ease, transform .4s var(--ease), visibility 0s linear .3s; z-index: 5; }
+.subnav::before { content: ""; position: absolute; inset: 14px 0 0 0; background: var(--white); border: 1px solid var(--line); border-top: 2px solid var(--navy); box-shadow: 0 18px 40px rgba(17,34,80,.14); z-index: -1; }
+.nav-item.has-sub:hover .subnav, .nav-item.has-sub:focus-within .subnav { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+.nav .subnav a:not(.btn) { display: flex; align-items: baseline; gap: 14px; padding: 13px 18px; color: var(--ink); font-size: .95rem; white-space: nowrap; }
+.nav .subnav a:not(.btn)::after { display: none; }
+.nav .subnav a:not(.btn):hover { background: var(--champagne); color: var(--navy); }
+.subnav .sub-num { font-family: var(--display); font-size: 1rem; letter-spacing: .1em; color: var(--sapphire); min-width: 22px; }
+.subnav small { margin-left: auto; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--soft); white-space: nowrap; }
 .nav-toggle { display: none; background: none; border: 0; width: 44px; height: 44px; cursor: pointer; }
 .nav-toggle span { display: block; width: 22px; height: 1.5px; background: var(--ink); margin: 6px auto; transition: transform .3s ease; }
 .nav-toggle[aria-expanded="true"] span:first-child { transform: translateY(3.75px) rotate(45deg); }
@@ -182,6 +194,8 @@ em { font-style: italic; }
 .footer-grid p, .footer-grid a { font-size: 0.98rem; display: block; margin-bottom: 8px; }
 .footer-grid a { width: fit-content; background: linear-gradient(var(--taupe), var(--taupe)) 0 100% / 0 2px no-repeat; transition: background-size .4s var(--ease); }
 .footer-grid a:hover { background-size: 100% 2px; }
+.footer-grid .ig-link { display: flex; align-items: center; gap: 10px; }
+.ig-link svg { width: 20px; height: 20px; flex: 0 0 auto; color: var(--navy); }
 .footer-bottom { display: flex; justify-content: space-between; padding-top: 20px; font-size: 0.82rem; color: var(--soft); gap: 20px; flex-wrap: wrap; }
 
 /* ---------- Páginas de servicio ---------- */
@@ -251,6 +265,14 @@ em { font-style: italic; }
   .nav.open { display: flex; }
   .nav a:not(.btn) { padding: 16px 0; border-bottom: 1px solid var(--line); }
   .nav a:not(.btn)::after { display: none; }
+  .nav-item { border-bottom: 1px solid var(--line); }
+  .nav-item > a:not(.btn) { border-bottom: 0; }
+  .nav .caret { display: none; }
+  .subnav small { display: none; }
+  .subnav { position: static; width: auto; margin-left: 0; min-width: 0; padding: 0 0 10px 12px; opacity: 1; visibility: visible; transform: none; transition: none; }
+  .subnav::before { display: none; }
+  .nav .subnav a:not(.btn) { padding: 11px 0; border-bottom: 0; font-size: .92rem; color: var(--soft); white-space: normal; }
+  .nav .subnav a:not(.btn):hover { background: none; }
   .nav .btn { margin-top: 18px; }
   .nav-toggle { display: block; }
 }
