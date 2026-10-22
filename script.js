@@ -105,82 +105,6 @@
     return tl;
   }
 
-  /* ---- Pincel de maquillaje: borra el polvo en pasadas al entrar la foto en pantalla ---- */
-  function initBrush(el) {
-    var frame = $('.rb-frame', el), cv = $('.rb-canvas', el), brush = $('.rb-brush', el);
-    if (!frame || !cv || !brush) return;
-    var ctx = cv.getContext('2d');
-    var W = 0, H = 0, dpr = 1, lastP = 0, grain = null;
-    // recorrido normalizado: tres pasadas que salen del cuadro en los extremos
-    var PTS = [[-0.18, 0.15], [1.18, 0.2], [1.2, 0.5], [-0.2, 0.52], [-0.2, 0.84], [1.18, 0.8]];
-    var lens = [], total = 0, i;
-    for (i = 1; i < PTS.length; i++) { var l = Math.hypot(PTS[i][0] - PTS[i - 1][0], (PTS[i][1] - PTS[i - 1][1]) * 0.8); lens.push(l); total += l; }
-    function posAt(t) {
-      t = Math.max(0, Math.min(1, t)) * total;
-      for (var k = 0; k < lens.length; k++) {
-        if (t <= lens[k] || k === lens.length - 1) {
-          var f = lens[k] ? Math.min(1, t / lens[k]) : 0;
-          f = f * f * (3 - 2 * f) * 0.35 + f * 0.65; // aceleración suave en cada pasada
-          var x = PTS[k][0] + (PTS[k + 1][0] - PTS[k][0]) * f;
-          var y = PTS[k][1] + (PTS[k + 1][1] - PTS[k][1]) * f + Math.sin(f * Math.PI) * 0.025 * (k % 2 ? -1 : 1);
-          return [x, y];
-        }
-        t -= lens[k];
-      }
-      return PTS[PTS.length - 1];
-    }
-    function makeGrain() {
-      var n = document.createElement('canvas'); n.width = n.height = 180;
-      var nc = n.getContext('2d'), id = nc.createImageData(180, 180), d = id.data;
-      for (var q = 0; q < d.length; q += 4) { var v = 190 + Math.random() * 55; d[q] = v; d[q + 1] = v - 10; d[q + 2] = v - 36; d[q + 3] = Math.random() * 75; }
-      nc.putImageData(id, 0, 0); return n;
-    }
-    function paintPowder() {
-      ctx.globalCompositeOperation = 'source-over';
-      var g = ctx.createRadialGradient(W * 0.3, H * 0.15, 0, W * 0.3, H * 0.15, Math.max(W, H) * 1.15);
-      g.addColorStop(0, '#f8f4e6'); g.addColorStop(0.55, '#e7e2ce'); g.addColorStop(1, '#d5ccae');
-      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
-      if (!grain) grain = makeGrain();
-      ctx.fillStyle = ctx.createPattern(grain, 'repeat'); ctx.fillRect(0, 0, W, H);
-    }
-    function wipeTo(a, b) {
-      var R = W * 0.25;
-      ctx.globalCompositeOperation = 'destination-out';
-      var steps = Math.max(1, Math.ceil(Math.abs(b - a) / 0.003));
-      for (var s = 0; s <= steps; s++) {
-        var pt = posAt(a + (b - a) * (s / steps)), x = pt[0] * W, y = pt[1] * H;
-        var g = ctx.createRadialGradient(x, y, 0, x, y, R);
-        g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(0.55, 'rgba(0,0,0,.92)'); g.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, R, 0, 6.2832); ctx.fill();
-      }
-    }
-    function resize() {
-      var r = frame.getBoundingClientRect();
-      W = Math.round(r.width); H = Math.round(r.height); dpr = Math.min(window.devicePixelRatio || 1, 2);
-      cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      paintPowder(); lastP = 0; render(o.p, true);
-    }
-    var o = { p: 0 };
-    function render(p, force) {
-      if (!W) return;
-      if (p < lastP - 0.0005 || force) { paintPowder(); lastP = 0; }
-      if (p > lastP) { wipeTo(lastP, p); lastP = p; }
-      cv.classList.toggle('done', p > 0.985);
-      var pos = posAt(p), nxt = posAt(Math.min(1, p + 0.012)), prv = posAt(Math.max(0, p - 0.012));
-      var dir = Math.tanh((nxt[0] - prv[0]) * 18);                // +1 hacia la derecha, -1 hacia la izquierda
-      var ang = dir * 22 + Math.sin(p * 40) * 2.5;
-      brush.style.left = (pos[0] * W).toFixed(1) + 'px';
-      brush.style.top = (pos[1] * H + 14).toFixed(1) + 'px';
-      brush.style.transform = 'translate(-50%,-100%) rotate(' + ang.toFixed(1) + 'deg)';
-      brush.style.opacity = p > 0.985 || p < 0.004 ? '0' : '1';
-    }
-    resize();
-    var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(resize, 200); });
-    // se dispara al entrar la foto en pantalla y corre sola (no depende del scroll): la imagen queda limpia mientras se mira
-    gsap.to(o, { p: 1, ease: 'sine.inOut', duration: 3.6, delay: 0.15, onUpdate: function () { render(o.p); },
-      scrollTrigger: { trigger: frame, start: 'top 75%', once: true } });
-  }
-
   /* ---- Animaciones al hacer scroll ---- */
   function scrollIn() {
     // textos con máscara
@@ -217,25 +141,9 @@
       var o = { v: 0 };
       gsap.to(o, { v: end, duration: 1.8, ease: 'power2.out', scrollTrigger: { trigger: el, start: 'top 90%', once: true }, onUpdate: function () { el.textContent = prefix + Math.round(o.v); } });
     });
-    // pincel que revela el maquillaje: barrido en zigzag sobre una capa de polvo
-    $$('[data-brush]').forEach(initBrush);
     // barra de progreso
     var bar = $('.progress');
     if (bar) gsap.to(bar, { scaleX: 1, ease: 'none', scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 0.3 } });
-    // galería horizontal fijada (escritorio)
-    var mm = gsap.matchMedia();
-    mm.add('(min-width: 901px)', function () {
-      var pin = $('.works-pin'), track = $('.works-track');
-      if (!pin || !track) return;
-      var dist = function () { return Math.max(0, track.scrollWidth - window.innerWidth + 40); };
-      gsap.to(track, { x: function () { return -dist(); }, ease: 'none',
-        scrollTrigger: { trigger: pin, start: 'top top', end: function () { return '+=' + dist(); }, pin: true, scrub: 0.7, anticipatePin: 1, invalidateOnRefresh: true,
-          onUpdate: function (self) {
-            var fill = $('.works-line i'), cnt = $('.works-count b'), n = $$('.work').length;
-            if (fill) fill.style.transform = 'scaleX(' + self.progress.toFixed(3) + ')';
-            if (cnt) cnt.textContent = ('0' + Math.min(n, Math.max(1, Math.ceil(self.progress * n)))).slice(-2);
-          } } });
-    });
   }
 
   /* ---- Transición entre páginas ---- */
