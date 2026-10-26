@@ -31,22 +31,14 @@
     $$('a', nav).forEach(function (a) { a.addEventListener('click', function () { nav.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); }); });
   }
 
-  /* ---- Videos de Instagram: se cargan recién al tocar play (no pesan ni rastrean antes) ---- */
-  $$('.video-card[data-ig]').forEach(function (card) {
-    var btn = $('.video-play', card);
-    if (!btn) return;
-    btn.addEventListener('click', function () {
-      var f = document.createElement('iframe');
-      f.src = 'https://www.instagram.com/reel/' + card.getAttribute('data-ig') + '/embed/';
-      f.setAttribute('allowfullscreen', '');
-      f.setAttribute('allow', 'autoplay; encrypted-media; fullscreen');
-      f.setAttribute('title', 'Video de Instagram');
-      f.setAttribute('scrolling', 'no');
-      card.classList.add('live');
-      card.appendChild(f);
-      btn.remove();
-      var lbl = $('.video-label', card); if (lbl) lbl.remove();
-    });
+  /* ---- Video propio: el botón grande arranca la reproducción; después quedan los controles nativos ---- */
+  $$('.video-card').forEach(function (card) {
+    var vid = $('video', card), btn = $('.video-play', card);
+    if (!vid || !btn) return;
+    btn.addEventListener('click', function () { card.classList.add('playing'); vid.play(); });
+    vid.addEventListener('play', function () { card.classList.add('playing'); });
+    vid.addEventListener('pause', function () { if (vid.ended || vid.currentTime === 0) card.classList.remove('playing'); });
+    vid.addEventListener('ended', function () { card.classList.remove('playing'); });
   });
 
   /* ---- Sin GSAP o con movimiento reducido: contenido estático ---- */
