@@ -1,0 +1,6 @@
+{
+  // Sitio estático servido con Cloudflare Workers (assets). Se publica con `npx wrangler deploy`.
+  "name": "flor-pissani",
+  "compatibility_date": "2026-06-01",
+  "assets": { "directory": "./" }
+}
