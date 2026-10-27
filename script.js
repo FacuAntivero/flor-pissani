@@ -126,13 +126,6 @@
       var k = parseFloat(el.getAttribute('data-parallax')) || 40;
       gsap.to(el, { y: -k, ease: 'none', scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: 0.8 } });
     });
-    // contadores
-    $$('[data-count]').forEach(function (el) {
-      var end = parseInt(el.getAttribute('data-count'), 10);
-      var prefix = el.getAttribute('data-prefix') || '';
-      var o = { v: 0 };
-      gsap.to(o, { v: end, duration: 1.8, ease: 'power2.out', scrollTrigger: { trigger: el, start: 'top 90%', once: true }, onUpdate: function () { el.textContent = prefix + Math.round(o.v); } });
-    });
     // barra de progreso
     var bar = $('.progress');
     if (bar) gsap.to(bar, { scaleX: 1, ease: 'none', scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 0.3 } });

@@ -130,12 +130,6 @@ em { font-style: italic; }
 .brand-item::after { content: "✦"; color: var(--taupe); font-size: .62rem; }
 @keyframes brands { to { transform: translateX(-50%); } }
 
-/* ---------- Datos (años de experiencia) ---------- */
-.facts { display: flex; gap: 22px 36px; flex-wrap: wrap; margin-top: 34px; padding-top: 24px; border-top: 1px solid var(--line); }
-.fact strong { display: flex; align-items: baseline; gap: 8px; font-family: var(--display); font-size: 3.1rem; font-weight: 500; color: var(--navy); line-height: 1; }
-.fact strong em { font-size: 1.1rem; line-height: 1.15; font-style: italic; color: var(--sapphire); }
-.fact > span { display: block; margin-top: 6px; font-size: 0.8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--soft); }
-
 /* ---------- Servicios ---------- */
 .section { padding: 104px 0; }
 #servicios { background: var(--champagne); }
@@ -284,8 +278,6 @@ em { font-style: italic; }
   .badge-spin { left: -4px; width: 104px; height: 104px; bottom: 40px; }
   .hero-caption { padding-left: 0; }
   .section { padding: 72px 0; }
-  .facts { gap: 20px 28px; }
-  .fact strong { font-size: 2.6rem; }
   .booking { padding: 84px 0; }
   .footer-grid { grid-template-columns: 1fr; gap: 32px; }
   .gallery-grid { grid-template-columns: 1fr; }
