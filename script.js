@@ -91,7 +91,6 @@
       tl.to(el, { clipPath: 'inset(0 0 0% 0)', duration: 1.5, ease: 'power3.inOut' }, 0.2 + i * 0.15);
       tl.to($('img', el), { scale: 1, duration: 1.8, ease: 'power3.out' }, 0.2 + i * 0.15);
     });
-    $$('.draw[data-hero] path').forEach(function (p) { tl.to(p, { strokeDashoffset: 0, duration: 2.2, ease: 'power2.inOut' }, 0.4); });
     var pop = $$('.badge-spin');
     if (pop.length) tl.fromTo(pop, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.9, ease: 'back.out(1.8)', stagger: 0.15 }, 1.1);
     return tl;
